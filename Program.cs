@@ -1,3 +1,5 @@
+using crud_products_api.src.Contexts;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
