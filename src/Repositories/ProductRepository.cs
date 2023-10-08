@@ -10,7 +10,7 @@ namespace crud_products_api.src.Repositories;
 
 public class ProductRepository : IProduct
 {
-    private DataBaseContext _context; 
+    private DataBaseContext _context;
     private IMapper _mapper;
     public ProductRepository(DataBaseContext context, IMapper mapper)
     {
@@ -18,20 +18,25 @@ public class ProductRepository : IProduct
         _mapper = mapper;
     }
 
-    public List<ProductReadModel> GetAllProducts() 
+    public List<ProductReadModel> GetAllProducts()
     {
-        var products = _context.Products.ToList(); 
-        return _mapper.Map<List<ProductReadModel>>(products);
+        var products = _mapper.Map<List<ProductReadModel>>(
+            _context
+            .Products
+            .Include(p => p.Address)
+            .ToList()
+        );
+        return products;
     }
 
-    public async Task CreateProductAsync(ProductCreateModel product) 
+    public async Task CreateProductAsync(ProductCreateModel product)
     {
-        Product productCreated = _mapper.Map<Product>(product); 
+        Product productCreated = _mapper.Map<ProductCreateModel, Product>(product);
         await _context.Products.AddAsync(productCreated);
     }
 
-    public async Task SaveChangesAsync() 
+    public async Task SaveChangesAsync()
     {
-        await _context.SaveChangesAsync(); 
+        await _context.SaveChangesAsync();
     }
 }

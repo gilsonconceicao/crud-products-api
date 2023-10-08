@@ -10,7 +10,10 @@ public class ProductProfile : Profile
     public ProductProfile()
     {
         CreateMap<Product, ProductReadModel>()
-            .ReverseMap();
+           .ForMember(
+            dest => dest.Address,
+            opt => opt.MapFrom(src => src.Address)
+        ).ReverseMap();
         CreateMap<Task<List<Product>>, Task<List<ProductReadModel>>>()
             .ReverseMap();
         CreateMap<ProductCreateModel, Product>();

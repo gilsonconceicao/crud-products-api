@@ -12,8 +12,8 @@ using crud_products_api.src.Contexts;
 namespace crud_products_api.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20231008024730_models-fixed")]
-    partial class modelsfixed
+    [Migration("20231008032923_add-category")]
+    partial class addcategory
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,9 +64,8 @@ namespace crud_products_api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Category")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
