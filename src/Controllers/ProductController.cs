@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using crud_products_api.src.Contexts;
+using crud_products_api.src.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace crud_products_api.src.Controllers;
@@ -9,9 +12,16 @@ namespace crud_products_api.src.Controllers;
 [Route("[Controller]")]
 public class ProductController : ControllerBase
 {
-    [HttpGet]
-    public IActionResult GetAllProducts() 
+    private ProductRepository _productRepository;
+    public ProductController(DataBaseContext context, IMapper mapper)
     {
-        return Ok("Teste: Product"); 
+        _productRepository = new ProductRepository(context, mapper); 
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllProducts() 
+    {
+        var productsList = await _productRepository.GetAllProducts(); 
+        return Ok(productsList);
     }
 }
