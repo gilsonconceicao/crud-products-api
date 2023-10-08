@@ -10,6 +10,6 @@ public class Product
     public double? Discount { get; set; }
     public DateTime? DiscountExpirationDate { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
     public Address Address { get; set; }
 }
