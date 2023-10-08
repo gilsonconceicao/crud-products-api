@@ -18,13 +18,13 @@ public class ProductRepository : IProduct
         _mapper = mapper;
     }
 
-    public async Task<List<ProductReadModel>> GetAllProducts() 
+    public List<ProductReadModel> GetAllProducts() 
     {
-        var products = _mapper.Map<Task<List<ProductReadModel>>>(_context.Products.ToListAsync()); 
-        return await products;
+        var products = _context.Products.ToList(); 
+        return _mapper.Map<List<ProductReadModel>>(products);
     }
 
-    public async Task CreateProduct (ProductCreateModel product) 
+    public async Task CreateProductAsync(ProductCreateModel product) 
     {
         Product productCreated = _mapper.Map<Product>(product); 
         await _context.Products.AddAsync(productCreated);

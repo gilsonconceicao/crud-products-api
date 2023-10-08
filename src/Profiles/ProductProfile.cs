@@ -11,6 +11,8 @@ public class ProductProfile : Profile
     {
         CreateMap<Product, ProductReadModel>()
             .ReverseMap();
+        CreateMap<Task<List<Product>>, Task<List<ProductReadModel>>>()
+            .ReverseMap();
         CreateMap<ProductCreateModel, Product>();
     }
 }
