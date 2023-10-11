@@ -13,4 +13,14 @@ public class DataBaseContext : DbContext
     public DataBaseContext(DbContextOptions options)
         : base(options)
     { }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.Address)
+            .WithOne(p => p.Product)
+            .HasForeignKey<Address>(p => p.ProductId); 
+    }
 }

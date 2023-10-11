@@ -14,10 +14,10 @@ namespace crud_products_api.src.Controllers;
 [Route("[Controller]")]
 public class ProductController : ControllerBase
 {
-    private ProductRepository _productRepository;
-    public ProductController(DataBaseContext context, IMapper mapper)
+    private readonly ProductRepository _productRepository;
+    public ProductController(ProductRepository productRepository)
     {
-        _productRepository = new ProductRepository(context, mapper);
+        _productRepository = productRepository;
     }
 
     /// <summary>
@@ -27,8 +27,15 @@ public class ProductController : ControllerBase
     [HttpGet]
     public IActionResult GetAllProducts()
     {
-        var productsList = _productRepository.GetAllProducts();
-        return Ok(productsList);
+        try
+        {
+            var productsList = _productRepository.GetAllProducts();
+            return Ok(productsList);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Erro interno do servidor: " + ex.Message);
+        }
     }
 
     /// <summary>

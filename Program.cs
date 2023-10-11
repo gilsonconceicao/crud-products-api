@@ -1,5 +1,6 @@
 using System.Reflection;
 using crud_products_api.src.Contexts;
+using crud_products_api.src.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -9,7 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 string connectionString = builder.Configuration.GetConnectionString("dbstringconnection")!;
 
-builder.Services.AddDbContext<DataBaseContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<DataBaseContext>(options => options.UseLazyLoadingProxies().UseNpgsql(connectionString));
+
+builder.Services.AddControllers().AddNewtonsoftJson(options => {
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; 
+});
+
+builder.Services.AddScoped<ProductRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

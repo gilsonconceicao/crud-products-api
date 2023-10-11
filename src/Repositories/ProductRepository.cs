@@ -20,13 +20,11 @@ public class ProductRepository : IProduct
 
     public List<ProductReadModel> GetAllProducts()
     {
-        var products = _mapper.Map<List<ProductReadModel>>(
-            _context
+        var products = _context
             .Products
             .Include(p => p.Address)
-            .ToList()
-        );
-        return products;
+            .ToList();
+        return _mapper.Map<List<ProductReadModel>>(products);
     }
 
     public async Task CreateProductAsync(ProductCreateModel product)
