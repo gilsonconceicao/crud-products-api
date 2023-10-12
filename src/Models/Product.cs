@@ -1,4 +1,10 @@
 using crud_products_api.src.Enums;
+using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace crud_products_api.src.Models;
 public class Product
