@@ -10,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 string connectionString = builder.Configuration.GetConnectionString("dbstringconnection")!;
 
-builder.Services.AddDbContext<DataBaseContext>(options => options.UseLazyLoadingProxies().UseNpgsql(connectionString));
+builder.Services.AddDbContext<DataBaseContext>(options =>
+{
+    options.UseLazyLoadingProxies().UseNpgsql(connectionString);
+});
 
 builder.Services.AddControllers().AddNewtonsoftJson(options => {
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; 

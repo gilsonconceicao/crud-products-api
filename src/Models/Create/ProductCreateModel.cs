@@ -17,6 +17,5 @@ public class ProductCreateModel
     public string Description { get; set; }
     [Required(ErrorMessage = "Preço é obrigatório")]
     public double Price { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public AddressCreateModel Address { get; set; }
+    public AddressCreateModel? Address { get; set; }
 }

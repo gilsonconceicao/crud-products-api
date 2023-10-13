@@ -6,9 +6,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using crud_products_api.src.Contexts;
+using crud_products_api.src.Enums;
 using crud_products_api.src.Models;
 using crud_products_api.src.Models.Create;
 using crud_products_api.src.Models.Read;
+using crud_products_api.src.Models.Update;
 using crud_products_api.src.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,16 +43,16 @@ public class ProductController : ControllerBase
         }
     }
     /// <summary>
-    /// Recupera um produto por id
+    /// Recupera um produto específico
     /// </summary>
     /// <param name="Id">Id do produto</param>
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductReadModel>))]
     [HttpGet("{Id}")]
-    public async Task<ActionResult<Product>> GetProductById(Guid Id)
+    public ActionResult GetProductById(Guid Id)
     {
         try
         {
-            var product = await _productRepository.GetProductByIdAsync(Id);
+            var product = _productRepository.GetProductByIdAsync(Id);
             if (product is null)
             {
                 return NotFound(new
@@ -72,11 +74,68 @@ public class ProductController : ControllerBase
     /// </summary>
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ProductCreateModel))]
     [HttpPost("/CreateProduct")]
-    public async Task<IActionResult> CreateProduct(ProductCreateModel product)
+    public async Task<IActionResult> CreateProduct([FromBody] ProductCreateModel product)
     {
         try
         {
             await _productRepository.CreateProductAsync(product);
+            await _productRepository.SaveChangesAsync();
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Erro interno do servidor: " + ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Atualiza um produto
+    /// </summary>
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(ProductCreateModel))]
+    [HttpPut("/UpdateProduct/{Id}")]
+    public async Task<IActionResult> UpdateProduct(Guid Id, [FromBody] ProductUpdateModel updateProduct)
+    {
+        try
+        {
+            var product = _productRepository.GetProductByIdAsync(Id);
+            if (product is null)
+            {
+                return NotFound(new
+                {
+                    message = "Product " + Id + " does not exist"
+                });
+            }
+
+            await _productRepository.UpdateProductAsync(updateProduct, product); 
+            await _productRepository.SaveChangesAsync();
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Erro interno do servidor: " + ex.Message);
+        }
+    }
+
+
+
+    /// <summary>
+    /// Remove um produto 
+    /// </summary>
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(ProductCreateModel))]
+    [HttpDelete("{Id}")]
+    public async Task<IActionResult> DeleteProduct(Guid Id)
+    {
+        try
+        {
+            var product = _productRepository.GetProductByIdAsync(Id);
+            if (product is null)
+            {
+                return NotFound(new
+                {
+                    message = "Product " + Id + " does not exist"
+                });
+            }
+            _productRepository.DeleteProductAsync(product);
             await _productRepository.SaveChangesAsync();
             return Ok();
         }

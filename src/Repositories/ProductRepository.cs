@@ -13,6 +13,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace crud_products_api.src.Repositories;
 
@@ -25,18 +26,19 @@ public class ProductRepository : IProduct
         _context = context;
         _mapper = mapper;
     }
-    public async Task<Product> GetProductByIdAsync(Guid id) 
-    {
-        return await _context.Products.FirstOrDefaultAsync(p => p.Id == id); 
-    }
 
     public List<ProductReadModel> GetAllProducts()
     {
         var products = _context
             .Products
-            .Include(p => p.Address)
             .ToList();
         return _mapper.Map<List<ProductReadModel>>(products);
+    }
+
+    public Product GetProductByIdAsync(Guid id)
+    {
+        Product product = _context.Products.FirstOrDefault(p => p.Id == id);
+        return product; 
     }
 
     public async Task CreateProductAsync(ProductCreateModel product)
@@ -48,13 +50,34 @@ public class ProductRepository : IProduct
 
     public async Task UpdateProductAsync(ProductUpdateModel updatedProduct, Product product)
     {
-
+        product.Name = updatedProduct.Name;
+        product.Price = updatedProduct.Price; ;
+        product.Category = updatedProduct.Category; 
+        product.Discount = updatedProduct.Discount;
+        product.UpdatedAt = DateTime.UtcNow; 
+        
+        if (updatedProduct.Address != null)
+        {
+            if (product.Address is null)
+            {
+                Address addressCreated = _mapper.Map<Address>(updatedProduct.Address);
+                addressCreated.ProductId = product.Id; 
+                // product.Address = addressCreated;
+                await _context.Address.AddAsync(addressCreated); 
+            }
+            else
+            {
+                product.Address.State = updatedProduct.Address.State;
+                product.Address.City = updatedProduct.Address.City ;
+                product.Address.ZipCode = updatedProduct.Address.ZipCode;
+                product.Address.Street = updatedProduct.Address.Street; 
+            }
+        }
     }
 
-
-    public async Task DeleteProductAsync(Product product) 
+    public void DeleteProductAsync(Product product) 
     {
-
+        _context.Products.Remove(product);
     }
 
     public async Task SaveChangesAsync()

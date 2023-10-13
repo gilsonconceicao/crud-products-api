@@ -8,13 +8,9 @@ namespace crud_products_api.src.Models.Create
 {
     public class AddressCreateModel
     {
-        [Required]
         public string Street { get; set; }
-        [Required]
         public string City { get; set; }
-        [Required]
         public string State { get; set; }
-        [Required]
         public string ZipCode { get; set; }
     }
 }

@@ -12,15 +12,15 @@ using crud_products_api.src.Contexts;
 namespace crud_products_api.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20231011020126_initialMigration")]
-    partial class initialMigration
+    [Migration("20231012231040_change-database")]
+    partial class changedatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "7.0.12")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -73,10 +73,6 @@ namespace crud_products_api.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<double?>("Discount")
                         .HasColumnType("double precision");
 
@@ -114,8 +110,7 @@ namespace crud_products_api.Migrations
 
             modelBuilder.Entity("crud_products_api.src.Models.Product", b =>
                 {
-                    b.Navigation("Address")
-                        .IsRequired();
+                    b.Navigation("Address");
                 });
 #pragma warning restore 612, 618
         }

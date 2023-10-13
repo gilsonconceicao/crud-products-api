@@ -1,5 +1,6 @@
 
 using AutoMapper;
+using crud_products_api.src.Enums;
 using crud_products_api.src.Models;
 using crud_products_api.src.Models.Create;
 using crud_products_api.src.Models.Read;
@@ -17,10 +18,9 @@ public class ProductProfile : Profile
     public ProductProfile()
     {
         CreateMap<Product, ProductReadModel>()
-           .ForMember(
-            dest => dest.Address,
-            opt => opt.MapFrom(src => src.Address)
-        ).ReverseMap();
+            .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
+            .ForMember(dest => dest.CategoryDisplay, opt => opt.MapFrom(src => EnumHelper<Category>.GetDisplayValue(src.Category)))
+            .ReverseMap();
         CreateMap<Task<List<Product>>, Task<List<ProductReadModel>>>()
             .ReverseMap();
         CreateMap<ProductCreateModel, Product>();
