@@ -8,8 +8,8 @@ using crud_products_api.src.Models.Create;
 namespace crud_products_api.src.Models.Read;
 public class ProductReadModel
 {
-    public Guid Id { get; set; } = Guid.NewGuid(); 
-    public string Name { get; set; } 
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Name { get; set; }
     public Category Category { get; set; }
     public string CategoryDisplay { get; set; }
     public double Price { get; set; }
@@ -19,4 +19,5 @@ public class ProductReadModel
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; }
     public AddressReadModel Address { get; set; }
+    public List<ReviewReadModel> Reviews { get; set; }
 }

@@ -18,4 +18,5 @@ public class ProductCreateModel
     [Required(ErrorMessage = "Preço é obrigatório")]
     public double Price { get; set; }
     public AddressCreateModel? Address { get; set; }
+    public List<ReviewCreateModel>? Reviews { get; set; }
 }
