@@ -27,12 +27,12 @@ public class ProductRepository : IProduct
         _mapper = mapper;
     }
 
-    public List<ProductReadModel> GetAllProducts()
+    public Task<List<ProductReadModel>> GetAllProducts()
     {
         var products = _context
             .Products
-            .ToList();
-        return _mapper.Map<List<ProductReadModel>>(products);
+            .ToListAsync();
+        return _mapper.Map<Task<List<ProductReadModel>>>(products);
     }
 
     public Product GetProductByIdAsync(Guid id)
