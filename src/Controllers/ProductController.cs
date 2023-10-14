@@ -43,7 +43,7 @@ public class ProductController : ControllerBase
         }
     }
     /// <summary>
-    /// Recupera um produto espec�fico
+    /// Recupera um produto espec�fico
     /// </summary>
     /// <param name="Id">Id do produto</param>
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductReadModel>))]
@@ -78,8 +78,15 @@ public class ProductController : ControllerBase
     {
         try
         {
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest(new 
+                {
+                    message = "Informações inválidas"
+                });
+            }
             await _productRepository.CreateProductAsync(product);
-            await _productRepository.SaveChangesAsync();
+            // await _productRepository.SaveChangesAsync();
             return Ok();
         }
         catch (Exception ex)
