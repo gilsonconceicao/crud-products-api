@@ -30,11 +30,11 @@ public class ProductController : ControllerBase
     /// </summary>
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductReadModel>))]
     [HttpGet]
-    public IActionResult GetAllProducts()
+    public async Task<IActionResult> GetAllProducts()
     {
         try
         {
-            var productsList = _productRepository.GetAllProducts();
+            var productsList = await _productRepository.GetAllProducts();
             return Ok(productsList);
         }
         catch (Exception ex)
@@ -43,16 +43,16 @@ public class ProductController : ControllerBase
         }
     }
     /// <summary>
-    /// Recupera um produto espec�fico
+    /// Recupera um produto específico
     /// </summary>
     /// <param name="Id">Id do produto</param>
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductReadModel>))]
     [HttpGet("{Id}")]
-    public ActionResult GetProductById(Guid Id)
+    public async Task<ActionResult> GetProductById(Guid Id)
     {
         try
         {
-            var product = _productRepository.GetProductByIdAsync(Id);
+            var product = await _productRepository.GetProductByIdAsync(Id);
             if (product is null)
             {
                 return NotFound(new
@@ -104,7 +104,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var product = _productRepository.GetProductByIdAsync(Id);
+            var product = await _productRepository.GetProductByIdAsync(Id);
             if (product is null)
             {
                 return NotFound(new
@@ -134,7 +134,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var product = _productRepository.GetProductByIdAsync(Id);
+            var product = await _productRepository.GetProductByIdAsync(Id);
             if (product is null)
             {
                 return NotFound(new

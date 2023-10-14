@@ -1,5 +1,3 @@
-using System;
-using System.Data.Entity;
 using AutoMapper;
 using crud_products_api.src.Contexts;
 using crud_products_api.src.Interfaces;
@@ -7,12 +5,6 @@ using crud_products_api.src.Models;
 using crud_products_api.src.Models.Create;
 using crud_products_api.src.Models.Read;
 using crud_products_api.src.Models.Update;
-using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace crud_products_api.src.Repositories;
@@ -35,11 +27,8 @@ public class ProductRepository : IProduct
         return _mapper.Map<Task<List<ProductReadModel>>>(products);
     }
 
-    public Product GetProductByIdAsync(Guid id)
-    {
-        Product product = _context.Products.FirstOrDefault(p => p.Id == id);
-        return product; 
-    }
+    public async Task<Product> GetProductByIdAsync(Guid id) => 
+        await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
 
     public async Task CreateProductAsync(ProductCreateModel product)
     {
