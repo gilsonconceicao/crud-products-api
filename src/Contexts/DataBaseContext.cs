@@ -16,10 +16,6 @@ public class DataBaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        modelBuilder.Entity<Product>()
-            .HasOne(p => p.Address)
-            .WithOne(p => p.Product)
-            .HasForeignKey<Address>(p => p.ProductId); 
+        modelBuilder.ApplyConfiguration(new ProductConfiguration());
     }
 }
