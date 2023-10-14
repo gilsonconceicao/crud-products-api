@@ -86,7 +86,7 @@ public class ProductController : ControllerBase
                 });
             }
             await _productRepository.CreateProductAsync(product);
-            // await _productRepository.SaveChangesAsync();
+            await _productRepository.SaveChangesAsync();
             return Ok();
         }
         catch (Exception ex)

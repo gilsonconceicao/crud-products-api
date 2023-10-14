@@ -8,16 +8,21 @@ namespace crud_products_api.src.Utility.Validations
 {
     public class PriceValidationAttribute : ValidationAttribute
     {
+        public string Field { get; set; }
+        public PriceValidationAttribute(string field)
+        {
+            Field = field;
+        }
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             double priceValue = (double)value;
             if (priceValue == null)
             {
-                return new ValidationResult(errorMessage: "Preço não pode ser null");
+                return new ValidationResult(errorMessage: $"{Field} não pode ser null");
             }
             if (priceValue == 0)
             {
-                return new ValidationResult(errorMessage: "Preço precisa ser maior que 0 (zero)");
+                return new ValidationResult(errorMessage: $"{Field} precisa ser maior que 0 (zero)");
             }
 
             return ValidationResult.Success;
