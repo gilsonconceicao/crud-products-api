@@ -24,6 +24,7 @@ public class ProductRepository : IProduct
         var products = _context
             .Products
             .ToListAsync();
+            
         return _mapper.Map<Task<List<ProductReadModel>>>(products);
     }
 

@@ -16,7 +16,7 @@ public class EnumHelper<T>
             return (string)resourceKeyProperty.GetMethod.Invoke(null, null);
         }
 
-        return resourceKey; // Fallback with the key name
+        return resourceKey;
     }
 
     public static string GetDisplayValue(T value)

@@ -13,14 +13,15 @@ namespace crud_products_api.src.Utility.Validations
         {
             Field = field;
         }
+        
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            double priceValue = (double)value;
-            if (priceValue == null)
+            double priceOrDiscountValue = (double)value;
+            if (priceOrDiscountValue == null)
             {
                 return new ValidationResult(errorMessage: $"{Field} não pode ser null");
             }
-            if (priceValue == 0)
+            if (priceOrDiscountValue == 0)
             {
                 return new ValidationResult(errorMessage: $"{Field} precisa ser maior que 0 (zero)");
             }
