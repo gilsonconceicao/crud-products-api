@@ -24,12 +24,19 @@ public class ProductRepository : IProduct
         var products = _context
             .Products
             .ToListAsync();
-            
+
         return _mapper.Map<Task<List<ProductReadModel>>>(products);
     }
 
-    public async Task<Product> GetProductByIdAsync(Guid id) => 
+    public async Task<Product> GetProductByIdAsync(Guid id) =>
         await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+
+    public async Task<Review> GetCommentById(Guid id) 
+    {
+        Review review = await _context.Review.FirstOrDefaultAsync(item => item.Id == id);
+        return review;
+    }
+
 
     public async Task CreateProductAsync(ProductCreateModel product)
     {
@@ -75,7 +82,12 @@ public class ProductRepository : IProduct
         await _context.Review.AddAsync(review); 
     }
 
-    public void DeleteProductAsync(Product product) 
+    public async Task DeleteComment(Review review)
+    {
+        _context.Review.Remove(review); 
+    }
+
+    public void DeleteProduct(Product product) 
     {
         _context.Products.Remove(product);
     }

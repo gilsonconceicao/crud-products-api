@@ -9,10 +9,12 @@ namespace crud_products_api.src.Interfaces
     {
         Task<List<ProductReadModel>> GetAllProducts();
         Task AddComment(ReviewCreateModel comment, Product product);
+        Task DeleteComment(Review review);
         Task CreateProductAsync(ProductCreateModel product);
         Task UpdateProductAsync(ProductUpdateModel updatedProduct, Product product);
         Task<Product> GetProductByIdAsync(Guid id);
-        void DeleteProductAsync(Product product); 
+        Task<Review> GetCommentById(Guid id);
+        void DeleteProduct(Product product); 
         Task SaveChangesAsync();
     }
 }

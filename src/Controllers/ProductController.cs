@@ -126,7 +126,7 @@ public class ProductController : ControllerBase
     /// <summary>
     /// Adicionar um comentário no produto
     /// </summary>
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ProductCreateModel))]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ReviewCreateModel))]
     [HttpPost("/Product/Comment/{Id}")]
     public async Task<IActionResult> CreateCommentByProductId(Guid Id, [FromBody] ReviewCreateModel comment)
     {
@@ -152,6 +152,35 @@ public class ProductController : ControllerBase
     }
 
     /// <summary>
+    /// Remove um comentário de um produto
+    /// </summary>
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(ProductCreateModel))]
+    [HttpDelete("/Product/Comment/{Id}")]
+    public async Task<IActionResult> DeleteProductById(Guid Id)
+    {
+        try
+        {
+            Review comment = await _productRepository.GetCommentById(Id);
+            if (comment is null)
+            {
+                return NotFound(new
+                {
+                    message = "Comentário não existe"
+                });
+            }
+
+            await _productRepository.DeleteComment(comment);
+            await _productRepository.SaveChangesAsync();
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Erro interno do servidor: " + ex.Message);
+        }
+    }
+
+
+    /// <summary>
     /// Remove um produto 
     /// </summary>
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(ProductCreateModel))]
@@ -168,7 +197,7 @@ public class ProductController : ControllerBase
                     message = "Product " + Id + " does not exist"
                 });
             }
-            _productRepository.DeleteProductAsync(product);
+            _productRepository.DeleteProduct(product);
             await _productRepository.SaveChangesAsync();
             return Ok();
         }
