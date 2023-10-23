@@ -37,10 +37,11 @@ public class ProductRepository : IProduct
         await _context.Products.AddAsync(productCreated);
     }
 
-
+        
     public async Task UpdateProductAsync(ProductUpdateModel updatedProduct, Product product)
     {
         product.Name = updatedProduct.Name;
+        product.Description = updatedProduct.Description; 
         product.Price = updatedProduct.Price; ;
         product.Category = updatedProduct.Category; 
         product.Discount = updatedProduct.Discount;
@@ -63,6 +64,15 @@ public class ProductRepository : IProduct
                 product.Address.Street = updatedProduct.Address.Street; 
             }
         }
+    }
+
+    public async Task AddComment(ReviewCreateModel comment, Product productToCreate)
+    {
+        Product product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productToCreate.Id)!;
+        Review review = _mapper.Map<Review>(comment);
+        review.ProductId = product!.Id; 
+        review.Product = product!;
+        await _context.Review.AddAsync(review); 
     }
 
     public void DeleteProductAsync(Product product) 

@@ -9,6 +9,7 @@ public class DataBaseContext : DbContext
 {
     public DbSet<Product> Products { get; set; }
     public DbSet<Address> Address { get; set; }
+    public DbSet<Review> Review { get; set; }
     public DataBaseContext(DbContextOptions<DataBaseContext> options)
         : base(options)
     { }

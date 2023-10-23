@@ -123,7 +123,33 @@ public class ProductController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Adicionar um comentário no produto
+    /// </summary>
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ProductCreateModel))]
+    [HttpPost("/Product/Comment/{Id}")]
+    public async Task<IActionResult> CreateCommentByProductId(Guid Id, [FromBody] ReviewCreateModel comment)
+    {
+        try
+        {
+            Product product = await _productRepository.GetProductByIdAsync(Id);
+            if (product is null)
+            {
+                return NotFound(new
+                {
+                    message = "Produto não existe"
+                });
+            }
 
+            await _productRepository.AddComment(comment, product);
+            await _productRepository.SaveChangesAsync();
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Erro interno do servidor: " + ex.Message);
+        }
+    }
 
     /// <summary>
     /// Remove um produto 

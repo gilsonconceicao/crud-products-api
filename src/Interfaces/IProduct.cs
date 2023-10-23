@@ -8,6 +8,7 @@ namespace crud_products_api.src.Interfaces
     public interface IProduct
     {
         Task<List<ProductReadModel>> GetAllProducts();
+        Task AddComment(ReviewCreateModel comment, Product product);
         Task CreateProductAsync(ProductCreateModel product);
         Task UpdateProductAsync(ProductUpdateModel updatedProduct, Product product);
         Task<Product> GetProductByIdAsync(Guid id);
