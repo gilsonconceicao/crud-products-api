@@ -73,7 +73,7 @@ public class ProductController : ControllerBase
     /// Adiciona um novo produto
     /// </summary>
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ProductCreateModel))]
-    [HttpPost("/CreateProduct")]
+    [HttpPost()]
     public async Task<IActionResult> CreateProduct([FromBody] ProductCreateModel product)
     {
         try
@@ -99,7 +99,7 @@ public class ProductController : ControllerBase
     /// Atualiza um produto
     /// </summary>
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(ProductCreateModel))]
-    [HttpPut("/UpdateProduct/{Id}")]
+    [HttpPut("{Id}")]
     public async Task<IActionResult> UpdateProduct(Guid Id, [FromBody] ProductUpdateModel updateProduct)
     {
         try
