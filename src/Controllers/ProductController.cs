@@ -152,6 +152,34 @@ public class ProductController : ControllerBase
     }
 
     /// <summary>
+    /// Atualiza um comentário do produto
+    /// </summary>
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ReviewCreateModel))]
+    [HttpPut("/Product/Comment/{Id}")]
+    public async Task<IActionResult> UpdateCommentByProduct(Guid Id, [FromBody] ReviewCreateModel comment)
+    {
+        try
+        {
+            Review review = await _productRepository.GetCommentById(Id);
+            if (review is null)
+            {
+                return NotFound(new
+                {
+                    message = "Comentário não existe"
+                });
+            }
+
+            _productRepository.EditCommentById(comment, review);
+            await _productRepository.SaveChangesAsync();
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Erro interno do servidor: " + ex.Message);
+        }
+    }
+
+    /// <summary>
     /// Remove um comentário de um produto
     /// </summary>
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(ProductCreateModel))]

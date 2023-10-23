@@ -37,7 +37,6 @@ public class ProductRepository : IProduct
         return review;
     }
 
-
     public async Task CreateProductAsync(ProductCreateModel product)
     {
         Product productCreated = _mapper.Map<ProductCreateModel, Product>(product);
@@ -80,6 +79,10 @@ public class ProductRepository : IProduct
         review.ProductId = product!.Id; 
         review.Product = product!;
         await _context.Review.AddAsync(review); 
+    }
+    public void EditCommentById(ReviewCreateModel reviewUpdate, Review review)
+    {
+        review.Comment = reviewUpdate.Comment; 
     }
 
     public async Task DeleteComment(Review review)
