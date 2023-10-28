@@ -13,6 +13,7 @@ public class ProductReadModel
     public string Description { get; set; }
     public Category Category { get; set; }
     public string CategoryDisplay { get; set; }
+    public double TotalValue { get; set; }
     public double Price { get; set; }
     public int StockQuantity { get; set; }
     public double Discount { get; set; }

@@ -12,6 +12,7 @@ using crud_products_api.src.Models.Create;
 using crud_products_api.src.Models.Read;
 using crud_products_api.src.Models.Update;
 using crud_products_api.src.Repositories;
+using crud_products_api.src.Utility.Validations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace crud_products_api.src.Controllers;
@@ -85,8 +86,17 @@ public class ProductController : ControllerBase
                     message = "Informações inválidas"
                 });
             }
+
+            if (product.Discount >= product.Price)
+            {
+                return BadRequest(new
+                {
+                    message = "Disconto não pode ser maior ou igual ao valor do produto"
+                });
+            }
+
             await _productRepository.CreateProductAsync(product);
-            await _productRepository.SaveChangesAsync();
+            //await _productRepository.SaveChangesAsync();
             return Ok();
         }
         catch (Exception ex)
@@ -98,7 +108,7 @@ public class ProductController : ControllerBase
     /// <summary>
     /// Atualiza um produto
     /// </summary>
-    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(ProductCreateModel))]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("{Id}")]
     public async Task<IActionResult> UpdateProduct(Guid Id, [FromBody] ProductUpdateModel updateProduct)
     {
@@ -154,7 +164,7 @@ public class ProductController : ControllerBase
     /// <summary>
     /// Atualiza um comentário do produto
     /// </summary>
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ReviewCreateModel))]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("/Product/Comment/{Id}")]
     public async Task<IActionResult> UpdateCommentByProduct(Guid Id, [FromBody] ReviewCreateModel comment)
     {

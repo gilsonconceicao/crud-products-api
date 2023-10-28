@@ -40,6 +40,7 @@ public class ProductRepository : IProduct
     public async Task CreateProductAsync(ProductCreateModel product)
     {
         Product productCreated = _mapper.Map<ProductCreateModel, Product>(product);
+        productCreated.TotalValue = product.Price + product.Discount; 
         await _context.Products.AddAsync(productCreated);
     }
 
@@ -51,6 +52,7 @@ public class ProductRepository : IProduct
         product.Price = updatedProduct.Price; ;
         product.Category = updatedProduct.Category; 
         product.Discount = updatedProduct.Discount;
+        product.TotalValue = updatedProduct.Price! + updatedProduct.Discount ?? 0;
         product.UpdatedAt = DateTime.UtcNow; 
         
         if (updatedProduct.Address != null)
@@ -83,6 +85,7 @@ public class ProductRepository : IProduct
     public void EditCommentById(ReviewCreateModel reviewUpdate, Review review)
     {
         review.Comment = reviewUpdate.Comment; 
+        review.UpdatedAt = DateTime.UtcNow;
     }
 
     public async Task DeleteComment(Review review)

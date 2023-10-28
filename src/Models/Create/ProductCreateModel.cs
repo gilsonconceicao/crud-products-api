@@ -27,4 +27,5 @@ public class ProductCreateModel
     public double Discount { get; set; }
     public AddressCreateModel? Address { get; set; }
     public List<ReviewCreateModel>? Reviews { get; set; }
+
 }

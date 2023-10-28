@@ -14,6 +14,7 @@ public class Product
     public string Description { get; set; }
     public Category Category { get; set; }
     public double Price { get; set; }
+    public double TotalValue { get; set; }
     public int? StockQuantity { get; set; }
     public double? Discount { get; set; }
     public DateTime? DiscountExpirationDate { get; set; }
