@@ -20,6 +20,7 @@ public class ProductProfile : Profile
         CreateMap<Product, ProductReadModel>()
             .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
             .ForMember(dest => dest.CategoryDisplay, opt => opt.MapFrom(src => EnumHelper<Category>.GetDisplayValue(src.Category)))
+            .ForMember(dest => dest.TypeOfCalculationDisplay, opt => opt.MapFrom(src => EnumHelper<AbsoluePercentage>.GetDisplayValue(src.TypeOfCalculation)))
             .ReverseMap();
         CreateMap<Task<List<Product>>, Task<List<ProductReadModel>>>()
             .ReverseMap();

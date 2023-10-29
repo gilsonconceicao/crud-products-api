@@ -12,6 +12,8 @@ public class ProductReadModel
     public string Name { get; set; }
     public string Description { get; set; }
     public Category Category { get; set; }
+    public AbsoluePercentage TypeOfCalculation { get; set; }
+    public string TypeOfCalculationDisplay { get; set; }
     public string CategoryDisplay { get; set; }
     public double TotalValue { get; set; }
     public double Price { get; set; }

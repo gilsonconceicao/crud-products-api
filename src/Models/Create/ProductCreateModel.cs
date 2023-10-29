@@ -25,7 +25,6 @@ public class ProductCreateModel
     [Range(0, 500000, ErrorMessage = "Disconto deve estar entre 0 à 500.000 mil")]
     [PriceValidationAttribute(field: "Disconto")]
     public double Discount { get; set; }
+    public AbsoluePercentage TypeOfCalculation { get; set; }
     public AddressCreateModel? Address { get; set; }
-    public List<ReviewCreateModel>? Reviews { get; set; }
-
 }

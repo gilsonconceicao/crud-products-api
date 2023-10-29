@@ -96,7 +96,7 @@ public class ProductController : ControllerBase
             }
 
             await _productRepository.CreateProductAsync(product);
-            //await _productRepository.SaveChangesAsync();
+            await _productRepository.SaveChangesAsync();
             return Ok();
         }
         catch (Exception ex)
@@ -152,7 +152,7 @@ public class ProductController : ControllerBase
             }
 
             await _productRepository.AddComment(comment, product);
-            await _productRepository.SaveChangesAsync();
+            //await _productRepository.SaveChangesAsync();
             return Ok();
         }
         catch (Exception ex)

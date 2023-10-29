@@ -11,19 +11,20 @@ namespace crud_products_api.src.Models.Update
 {
     public class ProductUpdateModel
     {
-        [Required(ErrorMessage = "Nome é obrigatório")]
+        [Required(ErrorMessage = "Nome ï¿½ obrigatï¿½rio")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Categoria é obrigatório")]
+        [Required(ErrorMessage = "Categoria ï¿½ obrigatï¿½rio")]
         public Category Category { get; set; }
-        [Required(ErrorMessage = "Descrição é obrigatório")]
-        [StringLength(130, MinimumLength = 10, ErrorMessage = "Descrição precisa conter de 10 à 130 caracteres")]
+        [Required(ErrorMessage = "Descriï¿½ï¿½o ï¿½ obrigatï¿½rio")]
+        [StringLength(130, MinimumLength = 10, ErrorMessage = "Descriï¿½ï¿½o precisa conter de 10 ï¿½ 130 caracteres")]
         public string Description { get; set; }
-        [Required(ErrorMessage = "Preço é obrigatório")]
-        [Range(0, 500000, ErrorMessage = "Preço deve estar entre 0 à 500.000 mil")]
-        [PriceValidationAttribute(field: "Preço")]
+        [Required(ErrorMessage = "Preï¿½o ï¿½ obrigatï¿½rio")]
+        [Range(0, 500000, ErrorMessage = "Preï¿½o deve estar entre 0 ï¿½ 500.000 mil")]
+        [PriceValidationAttribute(field: "Preï¿½o")]
         public double Price { get; set; }
-        [Required(ErrorMessage = "Disconto é obrigatório")]
-        [Range(0, 500000, ErrorMessage = "Disconto deve estar entre 0 à 500.000 mil")]
+        public AbsoluePercentage TypeOfCalculation { get; set; }
+        [Required(ErrorMessage = "Disconto ï¿½ obrigatï¿½rio")]
+        [Range(0, 500000, ErrorMessage = "Disconto deve estar entre 0 ï¿½ 500.000 mil")]
         [PriceValidationAttribute(field: "Disconto")]
         public double Discount { get; set; }
         public AddressCreateModel? Address { get; set; }
