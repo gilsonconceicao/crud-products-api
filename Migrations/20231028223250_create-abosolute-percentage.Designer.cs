@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using crud_products_api.src.Contexts;
@@ -11,9 +12,11 @@ using crud_products_api.src.Contexts;
 namespace crud_products_api.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20231028223250_create-abosolute-percentage")]
+    partial class createabosolutepercentage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,11 +96,11 @@ namespace crud_products_api.Migrations
                     b.Property<double>("TotalValue")
                         .HasColumnType("double precision");
 
-                    b.Property<int>("TypeOfCalculation")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("typeOfCalculation")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
