@@ -1,6 +1,5 @@
 using AutoMapper;
 using crud_products_api.src.Contexts;
-using crud_products_api.src.Helpers;
 using crud_products_api.src.Interfaces;
 using crud_products_api.src.Models;
 using crud_products_api.src.Models.Create;
@@ -41,11 +40,6 @@ public class ProductRepository : IProduct
     public async Task CreateProductAsync(ProductCreateModel product)
     {
         Product productCreated = _mapper.Map<ProductCreateModel, Product>(product);
-        productCreated.TotalValue = new GenericCalculation().CalculatePriceAndDiscount(
-            product.Price,
-            product.Discount,
-            product.TypeOfCalculation
-        ); 
         await _context.Products.AddAsync(productCreated);
     }
 
