@@ -35,7 +35,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var productsList = await _productRepository.GetAllProducts();
+            var productsList = await _productRepository.GetAllAsync();
             return Ok(productsList);
         }
         catch (Exception ex)
@@ -43,6 +43,7 @@ public class ProductController : ControllerBase
             return StatusCode(500, "Erro interno do servidor: " + ex.Message);
         }
     }
+
     /// <summary>
     /// Recupera um produto específico
     /// </summary>
@@ -53,7 +54,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var product = await _productRepository.GetProductByIdAsync(Id);
+            var product = await _productRepository.GetByIdAsync(Id);
             if (product is null)
             {
                 return NotFound(new
@@ -114,7 +115,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var product = await _productRepository.GetProductByIdAsync(Id);
+            var product = await _productRepository.GetByIdAsync(Id);
             if (product is null)
             {
                 return NotFound(new
@@ -142,7 +143,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            Product product = await _productRepository.GetProductByIdAsync(Id);
+            Product product = await _productRepository.GetByIdAsync(Id);
             if (product is null)
             {
                 return NotFound(new
@@ -227,7 +228,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var product = await _productRepository.GetProductByIdAsync(Id);
+            var product = await _productRepository.GetByIdAsync(Id);
             if (product is null)
             {
                 return NotFound(new
