@@ -1,4 +1,5 @@
 using crud_products_api.src.Enums;
+using crud_products_api.src.Interfaces;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -7,9 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace crud_products_api.src.Models;
-public class Product
+public class Product: IEntity
 {
-    public Guid Id { get; set; } = Guid.NewGuid(); 
     public string Name { get; set; }
     public string Description { get; set; }
     public Category Category { get; set; }
