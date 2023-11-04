@@ -31,6 +31,7 @@ public class ProductController : ControllerBase
     /// <summary>
     /// Retorna todos os produtos
     /// </summary>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductReadModel>))]
     [HttpGet]
     public async Task<IActionResult> GetAllProducts()
     {

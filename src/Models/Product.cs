@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace crud_products_api.src.Models;
-public class Product: IEntity
+public class Product: IEntityRepository
 {
 #nullable disable
     public string Name { get; set; }

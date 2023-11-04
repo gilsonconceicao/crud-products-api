@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace crud_products_api.src.Repositories;
 
-public class ProductRepository : BaseRepository<Product>, IProduct
+public class ProductRepository : BaseRepository<Product>, IProductRepository
 {
 #nullable disable
     private readonly DataBaseContext _context;

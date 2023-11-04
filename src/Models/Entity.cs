@@ -6,7 +6,7 @@ using crud_products_api.src.Interfaces;
 
 namespace crud_products_api.src.Models
 {
-    public class Entity : IEntity
+    public class Entity : IEntityRepository
     {
         
     }

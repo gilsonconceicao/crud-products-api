@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace crud_products_api.src.Repositories
 {
 #nullable disable
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : IEntity
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : IEntityRepository
     {
         private readonly DataBaseContext _dbContext;
         private readonly IMapper _mapper;

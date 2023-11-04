@@ -6,9 +6,8 @@ using crud_products_api.src.Models;
 
 namespace crud_products_api.src.Interfaces
 {
-    public class IEntity
+    public class IEntityRepository
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-        public Address? Address { get; set; }
     }
 }
