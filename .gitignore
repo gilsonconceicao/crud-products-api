@@ -3,5 +3,5 @@ bin
 obj 
 Properties
 .vscode
-appsettings.json
+appsettings.json 
 appsettings.Development.json
