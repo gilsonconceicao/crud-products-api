@@ -9,8 +9,8 @@ namespace crud_products_api.src.Models.Create
 #nullable disable
     public class ReviewCreateModel
     {
-        [MinLength(10,
-            ErrorMessage = "Comentário deve conter no mínimo 10 caracteres")]
+        [MinLength(5,
+            ErrorMessage = "Comentário deve conter no mínimo 5 caracteres")]
         public string Comment { get; set; }
     }
 #nullable restore

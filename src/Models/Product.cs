@@ -16,8 +16,6 @@ public class Product: IEntityRepository
     public Category Category { get; set; }
     public double Price { get; set; }
     public int? StockQuantity { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime? UpdatedAt { get; set; }
     public virtual Address? Address { get; set; }
     public virtual List<Review> Reviews { get; set; }
 #nullable restore
