@@ -9,14 +9,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace crud_products_api.src.Repositories;
 
-public class ProductRepository : GenericRepository<Product>, IProduct
+public class ProductRepository : IProduct
 {
     private DataBaseContext _context;
     private IMapper _mapper;
 
-    public ProductRepository(DataBaseContext dataBaseContext, IMapper mapper) : base(dataBaseContext, mapper)
-    { }
-
+    public ProductRepository(DataBaseContext context, IMapper mapper)
+    {
+        _context = context; 
+        _mapper = mapper;
+    }
     public async Task<Review> GetCommentById(Guid id)
     {
         Review review = await _context.Review.FirstOrDefaultAsync(item => item.Id == id);
@@ -76,11 +78,6 @@ public class ProductRepository : GenericRepository<Product>, IProduct
     public async Task DeleteComment(Review review)
     {
         _context.Review.Remove(review);
-    }
-
-    public void DeleteProduct(Product product)
-    {
-        _context.Products.Remove(product);
     }
 
     public async Task SaveChangesAsync()

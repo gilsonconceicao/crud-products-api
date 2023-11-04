@@ -236,7 +236,7 @@ public class ProductController : ControllerBase
                     message = "Product " + Id + " does not exist"
                 });
             }
-            _productRepository.DeleteProduct(product);
+            _productRepository.Delete(product);
             await _productRepository.SaveChangesAsync();
             return Ok();
         }
