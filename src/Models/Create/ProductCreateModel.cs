@@ -21,8 +21,5 @@ public class ProductCreateModel
     [Range(0, 500000, ErrorMessage = "Preço deve estar entre 0 à 500.000 mil")]
     [PriceValidationAttribute(field: "Preço")]
     public double Price { get; set; }
-    [Required(ErrorMessage = "Disconto é obrigatório")]
-    [Range(0, 500000, ErrorMessage = "Disconto deve estar entre 0 à 500.000 mil")]
-    [PriceValidationAttribute(field: "Disconto")]
     public AddressCreateModel? Address { get; set; }
 }
