@@ -11,6 +11,7 @@ namespace crud_products_api.src.Models.Update
 {
     public class ProductUpdateModel
     {
+#nullable disable
         [Required(ErrorMessage = "Nome � obrigat�rio")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Categoria � obrigat�rio")]
@@ -23,5 +24,6 @@ namespace crud_products_api.src.Models.Update
         [PriceValidationAttribute(field: "Pre�o")]
         public double Price { get; set; }
         public AddressCreateModel? Address { get; set; }
+#nullable restore
     }
 }

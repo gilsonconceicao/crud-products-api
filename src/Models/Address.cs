@@ -2,6 +2,7 @@ namespace crud_products_api.src.Models;
 
 public class Address
 {
+#nullable disable
     public Guid Id { get; set; } = Guid.NewGuid();
     public Guid ProductId { get; set; }
     public string Street { get; set; }
@@ -9,5 +10,6 @@ public class Address
     public string State { get; set; }
     public string ZipCode { get; set; }
     public virtual Product? Product { get; set; }
+#nullable restore
 
 }

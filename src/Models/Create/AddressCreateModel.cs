@@ -8,6 +8,7 @@ namespace crud_products_api.src.Models.Create
 {
     public class AddressCreateModel
     {
+#nullable disable
         [Required(ErrorMessage = "Rua precisa ser preenchida")]
         public string Street { get; set; }
         [Required(ErrorMessage = "Cidade precisa ser preenchida")]
@@ -16,5 +17,6 @@ namespace crud_products_api.src.Models.Create
         public string State { get; set; }
         [Required(ErrorMessage = "CEP precisa ser preenchida")]
         public string ZipCode { get; set; }
+#nullable restore
     }
 }

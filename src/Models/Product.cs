@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace crud_products_api.src.Models;
 public class Product: IEntity
 {
+#nullable disable
     public string Name { get; set; }
     public string Description { get; set; }
     public Category Category { get; set; }
@@ -19,4 +20,5 @@ public class Product: IEntity
     public DateTime? UpdatedAt { get; set; }
     public virtual Address? Address { get; set; }
     public virtual List<Review> Reviews { get; set; }
+#nullable restore
 }

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace crud_products_api.src.Models.Create
 {
+#nullable disable
     public class ReviewCreateModel
     {
         [MinLength(10,
             ErrorMessage = "Comentário deve conter no mínimo 10 caracteres")]
         public string Comment { get; set; }
     }
+#nullable restore
 }

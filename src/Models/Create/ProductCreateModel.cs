@@ -10,6 +10,7 @@ namespace crud_products_api.src.Models.Create;
 
 public class ProductCreateModel
 {
+#nullable disable
     [Required(ErrorMessage = "Nome é obrigatório")]
     public string Name { get; set; }
     [Required(ErrorMessage = "Categoria é obrigatório")]
@@ -22,4 +23,5 @@ public class ProductCreateModel
     [PriceValidationAttribute(field: "Preço")]
     public double Price { get; set; }
     public AddressCreateModel? Address { get; set; }
+#nullable restore
 }
