@@ -21,9 +21,11 @@ namespace crud_products_api.src.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly ProductRepository _productRepository;
+    private readonly IMapper _mapper; 
     public ProductController(DataBaseContext context, IMapper mapper)
     {
         _productRepository = new ProductRepository(context, mapper);
+        _mapper = mapper; 
     }
 
     /// <summary>
@@ -66,7 +68,7 @@ public class ProductController : ControllerBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Exception: "+ex); 
+            Console.WriteLine("Exception: " + ex);
             return StatusCode(500, "Erro interno do servidor: " + ex.Message);
         }
     }
@@ -80,9 +82,9 @@ public class ProductController : ControllerBase
     {
         try
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
-                return BadRequest(new 
+                return BadRequest(new
                 {
                     message = "Informações inválidas"
                 });
@@ -95,9 +97,8 @@ public class ProductController : ControllerBase
                     message = "Disconto não pode ser maior ou igual ao valor do produto"
                 });
             }
-
-            await _productRepository.CreateProductAsync(product);
-            await _productRepository.SaveChangesAsync();
+            Product productCreated = _mapper.Map<ProductCreateModel, Product>(product);
+            await _productRepository.AddAsync(productCreated);
             return Ok();
         }
         catch (Exception ex)
@@ -115,7 +116,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var product = await _productRepository.GetByIdAsync(Id);
+            Product product = await _productRepository.GetByIdAsync(Id);
             if (product is null)
             {
                 return NotFound(new
@@ -123,9 +124,10 @@ public class ProductController : ControllerBase
                     message = "Product " + Id + " does not exist"
                 });
             }
-
-            await _productRepository.UpdateProductAsync(updateProduct, product); 
-            await _productRepository.SaveChangesAsync();
+            
+            Product newEntity = _mapper.Map<Product>(updateProduct); 
+            await _productRepository.UpdateAsync(product, newEntity);
+            // await _productRepository.SaveChangesAsync();
             return Ok();
         }
         catch (Exception ex)
@@ -133,91 +135,6 @@ public class ProductController : ControllerBase
             return StatusCode(500, "Erro interno do servidor: " + ex.Message);
         }
     }
-
-    /// <summary>
-    /// Adicionar um comentário no produto
-    /// </summary>
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ReviewCreateModel))]
-    [HttpPost("/Product/Comment/{Id}")]
-    public async Task<IActionResult> CreateCommentByProductId(Guid Id, [FromBody] ReviewCreateModel comment)
-    {
-        try
-        {
-            Product product = await _productRepository.GetByIdAsync(Id);
-            if (product is null)
-            {
-                return NotFound(new
-                {
-                    message = "Produto não existe"
-                });
-            }
-
-            await _productRepository.AddComment(comment, product);
-            //await _productRepository.SaveChangesAsync();
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "Erro interno do servidor: " + ex.Message);
-        }
-    }
-
-    /// <summary>
-    /// Atualiza um comentário do produto
-    /// </summary>
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [HttpPut("/Product/Comment/{Id}")]
-    public async Task<IActionResult> UpdateCommentByProduct(Guid Id, [FromBody] ReviewCreateModel comment)
-    {
-        try
-        {
-            Review review = await _productRepository.GetCommentById(Id);
-            if (review is null)
-            {
-                return NotFound(new
-                {
-                    message = "Comentário não existe"
-                });
-            }
-
-            _productRepository.EditCommentById(comment, review);
-            await _productRepository.SaveChangesAsync();
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "Erro interno do servidor: " + ex.Message);
-        }
-    }
-
-    /// <summary>
-    /// Remove um comentário de um produto
-    /// </summary>
-    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(ProductCreateModel))]
-    [HttpDelete("/Product/Comment/{Id}")]
-    public async Task<IActionResult> DeleteProductById(Guid Id)
-    {
-        try
-        {
-            Review comment = await _productRepository.GetCommentById(Id);
-            if (comment is null)
-            {
-                return NotFound(new
-                {
-                    message = "Comentário não existe"
-                });
-            }
-
-            await _productRepository.DeleteComment(comment);
-            await _productRepository.SaveChangesAsync();
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "Erro interno do servidor: " + ex.Message);
-        }
-    }
-
 
     /// <summary>
     /// Remove um produto 
@@ -236,8 +153,7 @@ public class ProductController : ControllerBase
                     message = "Product " + Id + " does not exist"
                 });
             }
-            _productRepository.Delete(product);
-            await _productRepository.SaveChangesAsync();
+            await _productRepository.DeleteAsync(product);
             return Ok();
         }
         catch (Exception ex)

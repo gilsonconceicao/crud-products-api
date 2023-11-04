@@ -17,6 +17,7 @@ public class ProductProfile : Profile
 {
     public ProductProfile()
     {
+        CreateMap<Product, Product>();
         CreateMap<Product, ProductReadModel>()
             .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
             .ForMember(dest => dest.CategoryDisplay, opt => opt.MapFrom(src => EnumHelper<Category>.GetDisplayValue(src.Category)))

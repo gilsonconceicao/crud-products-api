@@ -9,79 +9,48 @@ using Microsoft.EntityFrameworkCore;
 
 namespace crud_products_api.src.Repositories;
 
-public class ProductRepository : IProduct
+public class ProductRepository : BaseRepository<Product>, IProduct
 {
+#nullable disable
     private DataBaseContext _context;
     private IMapper _mapper;
 
-    public ProductRepository(DataBaseContext context, IMapper mapper)
+    public ProductRepository(DataBaseContext context, IMapper mapper) : base(context, mapper)
     {
-        _context = context; 
         _mapper = mapper;
     }
-    public async Task<Review> GetCommentById(Guid id)
-    {
-        Review review = await _context.Review.FirstOrDefaultAsync(item => item.Id == id);
-        return review;
-    }
 
-    public async Task CreateProductAsync(ProductCreateModel product)
-    {
-        Product productCreated = _mapper.Map<ProductCreateModel, Product>(product);
-        await _context.Products.AddAsync(productCreated);
-    }
+    // public async Task UpdateProductAsync(ProductUpdateModel updatedProduct, Product product)
+    // {
+    //     product.Name = updatedProduct.Name;
+    //     product.Description = updatedProduct.Description;
+    //     product.Price = updatedProduct.Price; ;
+    //     product.Category = updatedProduct.Category;
+    //     product.Discount = updatedProduct.Discount;
+    //     product.TotalValue = updatedProduct.Price! + updatedProduct.Discount;
+    //     product.UpdatedAt = DateTime.UtcNow;
 
-
-    public async Task UpdateProductAsync(ProductUpdateModel updatedProduct, Product product)
-    {
-        product.Name = updatedProduct.Name;
-        product.Description = updatedProduct.Description;
-        product.Price = updatedProduct.Price; ;
-        product.Category = updatedProduct.Category;
-        product.Discount = updatedProduct.Discount;
-        product.TotalValue = updatedProduct.Price! + updatedProduct.Discount;
-        product.UpdatedAt = DateTime.UtcNow;
-
-        if (updatedProduct.Address != null)
-        {
-            if (product.Address is null)
-            {
-                Address addressCreated = _mapper.Map<Address>(updatedProduct.Address);
-                addressCreated.ProductId = product.Id;
-                // product.Address = addressCreated;
-                await _context.Address.AddAsync(addressCreated);
-            }
-            else
-            {
-                product.Address.State = updatedProduct.Address.State;
-                product.Address.City = updatedProduct.Address.City;
-                product.Address.ZipCode = updatedProduct.Address.ZipCode;
-                product.Address.Street = updatedProduct.Address.Street;
-            }
-        }
-    }
-
-    public async Task AddComment(ReviewCreateModel comment, Product productToCreate)
-    {
-        Product product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productToCreate.Id)!;
-        Review review = _mapper.Map<Review>(comment);
-        review.ProductId = product!.Id;
-        review.Product = product!;
-        await _context.Review.AddAsync(review);
-    }
-    public void EditCommentById(ReviewCreateModel reviewUpdate, Review review)
-    {
-        review.Comment = reviewUpdate.Comment;
-        review.UpdatedAt = DateTime.UtcNow;
-    }
-
-    public async Task DeleteComment(Review review)
-    {
-        _context.Review.Remove(review);
-    }
+    //     if (updatedProduct.Address != null)
+    //     {
+    //         if (product.Address is null)
+    //         {
+    //             Address addressCreated = _mapper.Map<Address>(updatedProduct.Address);
+    //             addressCreated.ProductId = product.Id;
+    //             await _context.Address.AddAsync(addressCreated);
+    //         }
+    //         else
+    //         {
+    //             product.Address.State = updatedProduct.Address.State;
+    //             product.Address.City = updatedProduct.Address.City;
+    //             product.Address.ZipCode = updatedProduct.Address.ZipCode;
+    //             product.Address.Street = updatedProduct.Address.Street;
+    //         }
+    //     }
+    // }
 
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();
     }
+#nullable restore
 }
