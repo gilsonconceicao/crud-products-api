@@ -18,7 +18,7 @@ public class ProductRepository : BaseRepository<Product>, IProduct
     public ProductRepository(DataBaseContext context, IMapper mapper) : base(context, mapper)
     {
         _mapper = mapper;
-        _context = context; 
+        _context = context;
     }
 
     public async Task<List<ProductReadModel>> GetAllProductsAsync()
@@ -27,9 +27,28 @@ public class ProductRepository : BaseRepository<Product>, IProduct
         return await _mapper.Map<Task<List<Product>>, Task<List<ProductReadModel>>>(list);
     }
 
-    public Task<List<ProductReadModel>> UpdateProductById(Product product, ProductUpdateModel productUpdated)
+    public async Task UpdateProductById(Product product, ProductUpdateModel productUpdated)
     {
-       
+        product.Name = productUpdated.Name;
+        product.Price = productUpdated.Price;
+        product.Description = productUpdated.Description;
+        product.Category = productUpdated.Category;
+
+        if (productUpdated != null)
+        {
+            product.Address.ZipCode = productUpdated.Address.ZipCode;
+            product.Address.State = productUpdated.Address.State;
+            product.Address.Street = productUpdated.Address.Street;
+            product.Address.City = productUpdated.Address.City;
+        }
+
+        if (product.Address == null && productUpdated.Address != null ) 
+        {
+            var newAddress = _mapper.Map<Address>(productUpdated.Address); 
+            product.Address = newAddress;
+        }
+
+        await _context.SaveChangesAsync(); 
     }
 
 #nullable restore

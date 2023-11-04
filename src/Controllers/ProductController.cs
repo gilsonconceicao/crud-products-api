@@ -21,11 +21,11 @@ namespace crud_products_api.src.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly ProductRepository _productRepository;
-    private readonly IMapper _mapper; 
+    private readonly IMapper _mapper;
     public ProductController(DataBaseContext context, IMapper mapper)
     {
         _productRepository = new ProductRepository(context, mapper);
-        _mapper = mapper; 
+        _mapper = mapper;
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public class ProductController : ControllerBase
                     message = "Informações inválidas"
                 });
             }
-            
+
             Product productCreated = _mapper.Map<ProductCreateModel, Product>(product);
             await _productRepository.AddAsync(productCreated);
             return Ok();
@@ -116,9 +116,8 @@ public class ProductController : ControllerBase
                     message = "Product " + Id + " does not exist"
                 });
             }
-            
-            Product newEntity = _mapper.Map<Product>(updateProduct); 
-            await _productRepository.UpdateAsync(product, newEntity);
+
+            await _productRepository.UpdateProductById(product, updateProduct);
             // await _productRepository.SaveChangesAsync();
             return Ok();
         }
