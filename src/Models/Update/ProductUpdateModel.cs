@@ -24,8 +24,6 @@ namespace crud_products_api.src.Models.Update
         public double Price { get; set; }
         [Required(ErrorMessage = "Disconto � obrigat�rio")]
         [Range(0, 500000, ErrorMessage = "Disconto deve estar entre 0 � 500.000 mil")]
-        [PriceValidationAttribute(field: "Disconto")]
-        public double Discount { get; set; }
         public AddressCreateModel? Address { get; set; }
     }
 }

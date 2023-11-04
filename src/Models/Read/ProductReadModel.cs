@@ -12,13 +12,9 @@ public class ProductReadModel
     public string Name { get; set; }
     public string Description { get; set; }
     public Category Category { get; set; }
-    public string TypeOfCalculationDisplay { get; set; }
     public string CategoryDisplay { get; set; }
-    public double TotalValue { get; set; }
     public double Price { get; set; }
     public int StockQuantity { get; set; }
-    public double Discount { get; set; }
-    public DateTime DiscountExpirationDate { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; }
     public AddressReadModel Address { get; set; }

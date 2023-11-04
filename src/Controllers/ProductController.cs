@@ -31,13 +31,12 @@ public class ProductController : ControllerBase
     /// <summary>
     /// Retorna todos os produtos
     /// </summary>
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductReadModel>))]
     [HttpGet]
     public async Task<IActionResult> GetAllProducts()
     {
         try
         {
-            var productsList = await _productRepository.GetAllAsync();
+            var productsList = await _productRepository.GetAllProductsAsync();
             return Ok(productsList);
         }
         catch (Exception ex)
@@ -50,7 +49,7 @@ public class ProductController : ControllerBase
     /// Recupera um produto específico
     /// </summary>
     /// <param name="Id">Id do produto</param>
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductReadModel>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
     [HttpGet("{Id}")]
     public async Task<ActionResult> GetProductById(Guid Id)
     {
@@ -89,14 +88,7 @@ public class ProductController : ControllerBase
                     message = "Informações inválidas"
                 });
             }
-
-            if (product.Discount >= product.Price)
-            {
-                return BadRequest(new
-                {
-                    message = "Disconto não pode ser maior ou igual ao valor do produto"
-                });
-            }
+            
             Product productCreated = _mapper.Map<ProductCreateModel, Product>(product);
             await _productRepository.AddAsync(productCreated);
             return Ok();

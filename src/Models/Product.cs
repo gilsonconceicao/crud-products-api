@@ -14,10 +14,7 @@ public class Product: IEntity
     public string Description { get; set; }
     public Category Category { get; set; }
     public double Price { get; set; }
-    public double TotalValue { get; set; }
     public int? StockQuantity { get; set; }
-    public double? Discount { get; set; }
-    public DateTime? DiscountExpirationDate { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
     public virtual Address? Address { get; set; }
